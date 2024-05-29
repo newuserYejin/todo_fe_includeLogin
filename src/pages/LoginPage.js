@@ -24,6 +24,7 @@ const LoginPage = ({ user, setUser }) => {
 
     try {
       const response = await api.post('/user/login', { email: enterEmail, password: enterPassword })
+      console.log("login response:", response)
       if (response.status === 200) {
         console.log("login success!!")
         sessionStorage.setItem("token", response.data.token)
