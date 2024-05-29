@@ -68,8 +68,8 @@ const TodoPage = ({ user, setUser }) => {
   return (
     <Container>
       <Row className="add-item-row">
-        <Row className="LogInOut" onClick={LogInOut}>
-          <button>{user ? "로그아웃" : "로그인"}</button>
+        <Row className="LogInOut">
+          <button onClick={LogInOut}>{user ? "로그아웃" : "로그인"}</button>
         </Row>
         <Col xs={12} sm={10}>
           <input
