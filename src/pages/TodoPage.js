@@ -5,17 +5,20 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 
-const TodoPage = () => {
+const TodoPage = ({ user, setUser }) => {
   const [todoList, setTodoList] = useState([]);
   const [todoValue, setTodoValue] = useState("");
 
   const getTasks = async () => {
     const response = await api.get("/tasks");
+    console.log("tasklist", response.data.data)
     setTodoList(response.data.data);
   };
+
   useEffect(() => {
     getTasks();
   }, []);
+
   const addTodo = async () => {
     try {
       const response = await api.post("/tasks", {
@@ -56,9 +59,18 @@ const TodoPage = () => {
       console.log("error", error);
     }
   };
+
+  const LogInOut = () => {
+    setUser(null)
+    sessionStorage.removeItem("token")
+  }
+
   return (
     <Container>
       <Row className="add-item-row">
+        <Row className="LogInOut" onClick={LogInOut}>
+          <button>{user ? "로그아웃" : "로그인"}</button>
+        </Row>
         <Col xs={12} sm={10}>
           <input
             type="text"

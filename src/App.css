@@ -106,3 +106,17 @@ button {
   color: red;
   font-weight: bold;
 }
+
+.LogInOut {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 20px;
+  padding: 0;
+
+  button {
+    width: fit-content;
+    border: none;
+    border-radius: 2px;
+    font-weight: bold;
+  }
+}

@@ -1,28 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import api from "../utils/api";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({ user, setUser }) => {
   const [enterEmail, setEnterEmail] = useState('')
   const [enterPassword, setEnterPassword] = useState('')
   const [LoginError, setLoginError] = useState('')
-  const [user, setUser] = useState(null)
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("useEffect - user state changed:", user);
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const AttemptLogin = async (event) => {
     event.preventDefault()
 
     try {
       const response = await api.post('/user/login', { email: enterEmail, password: enterPassword })
-      if (response.status == 200) {
+      if (response.status === 200) {
         console.log("login success!!")
-        setUser(response.data.user)
         sessionStorage.setItem("token", response.data.token)
-        api.defaults.headers['authorization'] = "Bearer " + response.data.token
+        console.log("before setUser:", response.data.user);
+        setUser(response.data.compareUser);
+        console.log("after setUser called");
+        // api.defaults.headers['authorization'] = "Bearer " + response.data.token
+
         setLoginError('')
         navigate('/')
       } else {
@@ -31,6 +40,10 @@ const LoginPage = () => {
     } catch (error) {
       setLoginError(error.message)
     }
+  }
+
+  if (user) {
+    return <Navigate to='/' />
   }
 
   return (
