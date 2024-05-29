@@ -27,9 +27,7 @@ const LoginPage = ({ user, setUser }) => {
       if (response.status === 200) {
         console.log("login success!!")
         sessionStorage.setItem("token", response.data.token)
-        console.log("before setUser:", response.data.user);
         setUser(response.data.compareUser);
-        console.log("after setUser called");
         // api.defaults.headers['authorization'] = "Bearer " + response.data.token
 
         setLoginError('')
